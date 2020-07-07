@@ -16,10 +16,14 @@ public class TestService {
 		this.testRepository1 = testRepository1;
 	}
 
-	/* Open the circuit after 3 retries */
+	/*- Open the circuit after 3 retries 
 	@CircuitBreaker(maxAttempts = 3, //
 			openTimeout = 15000l, //
 			resetTimeout = 30000l)
+	*/
+	@CircuitBreaker(maxAttemptsExpression = "#{${circuit.max.attempts}}", //
+			openTimeoutExpression = "#{${circuit.openTimeout}}", //
+			resetTimeoutExpression = "#{${circuit.resetTimeout}}")
 	public String getResult(String id) throws ValueException {
 		return testRepository1.getResult(id);
 	}
